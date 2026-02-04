@@ -1,0 +1,30 @@
+import smtplib
+from email.mime.text import MIMEText
+
+# Sample script for testing SMTP portal delivery
+
+# Placeholder values - replace with your SMTP details to test
+smtp_server = 'smtp.example.com'
+smtp_port = 587  # Or 25, 465 for SSL
+username = 'your_username'
+password = 'your_password'
+from_email = 'your_email@example.com'
+to_email = 'test_recipient@example.com'  # Use a test inbox
+
+def test_smtp_delivery(server, port, user, pwd, from_addr, to_addr):
+    msg = MIMEText('This is a test email to verify SMTP delivery.')
+    msg['Subject'] = 'SMTP Test'
+    msg['From'] = from_addr
+    msg['To'] = to_addr
+    
+    try:
+        with smtplib.SMTP(server, port) as s:
+            s.starttls()  # Use for port 587; comment out for 465/SSL
+            s.login(user, pwd)
+            s.sendmail(from_addr, [to_addr], msg.as_string())
+        print('SMTP test successful! Email sent.')
+    except Exception as e:
+        print(f'SMTP test failed: {e}')
+
+# Run the test
+test_smtp_delivery(smtp_server, smtp_port, username, password, from_email, to_email)
